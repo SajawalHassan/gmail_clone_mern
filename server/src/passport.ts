@@ -13,15 +13,15 @@ passport.use(
       callbackURL: "/auth/google/callback",
       scope: ["profile", "email"],
     },
-    async (_accessToken: string, _refreshToken: string, profile, done) => {
+    async (_accessToken: string, _refreshToken: string, profile: any, done) => {
       const user = await User.findById(profile.id);
       if (user) {
         return done(null, user);
       } else {
         await User.create({
           username: profile.displayName,
-          email: profile.emails,
-          profilePic: profile.profileUrl,
+          email: profile.emails[0].value,
+          profilePic: profile.photos[0].value,
           _id: profile.id,
         });
       }

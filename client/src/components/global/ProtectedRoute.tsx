@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setAuthState } from "../features/authSlice";
+import { setAuthState } from "../../features/authSlice";
 
-import axios from "../api/axios";
+import axios from "../../api/axios";
 
 const ProtectedRoute = () => {
   const { user } = useSelector((state: RootState) => state.auth);

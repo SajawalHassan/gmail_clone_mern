@@ -1,15 +1,9 @@
-import { useSelector } from "react-redux";
-import { RootState } from "./app/store";
+import Header from "./components/home/Header";
 
 function App() {
-  const { user } = useSelector((state: RootState) => state.auth);
-
-  console.log(user);
-
   return (
     <div>
-      <h1>{user?.username}</h1>
-      <img src={user?.profilePic} alt="" />
+      <Header />
     </div>
   );
 }

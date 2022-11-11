@@ -2,6 +2,7 @@
 
 import express, { Router, Request, Response } from "express";
 import passport from "passport";
+import User from "../models/User";
 
 const clientURL: string =
   process.env.NODE_ENV == "production"
