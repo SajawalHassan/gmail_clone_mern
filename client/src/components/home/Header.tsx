@@ -35,22 +35,27 @@ const Header = () => {
     <header className="p-2 bg-header">
       {!searchToggler && (
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center flex-grow">
             <div className="p-2 icon-btn">
               <MenuIcon />
             </div>
-            <Link to="/">
+            <Link to="/" className="ml-1">
               <img
                 src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png"
                 alt=""
               />
             </Link>
+            <Search
+              className="hidden md:flex ml-20 max-w-[40rem] md:flex-grow"
+              setSearchToggler={setSearchToggler}
+            />
           </div>
           <div className="flex items-center space-x-2">
             <IconButton
               Icon={SearchIcon}
               label="Search"
               labelClassName="-left-2"
+              className="md:hidden"
               handleClick={() => setSearchToggler(true)}
             />
             <IconButton
@@ -73,7 +78,7 @@ const Header = () => {
               <img
                 src={user.profilePic}
                 alt="Profile"
-                className="h-8 w-10 rounded-full cursor-pointer border border-transparent active:border-blue-500"
+                className="h-8 rounded-full cursor-pointer border border-transparent active:border-blue-500"
                 onClick={() => setProfileMenu(true)}
               />
               <div className="group-hover:opacity-100 opacity-0 absolute transition-opacity group-hover:delay-1000 top-10 py-1 px-2 bg-zinc-700  text-white text-[10px] font-bold rounded-[4px] w-max right-0 delay-200">
@@ -126,14 +131,18 @@ const Header = () => {
             </div>
             <div className="border" />
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center my-4">
             <button
-              className="px-4 py-2 border rounded-md mt-2 text-sm text-gray-600 font-[500] hover:bg-gray-100 active:shadow-md"
+              className="px-4 py-2 border rounded-md text-sm text-gray-600 font-[500] hover:bg-gray-100 active:shadow-md"
               onClick={() => window.open(`${apiURL}/auth/logout`, "_self")}
             >
               Sign out
             </button>
           </div>
+          <div className="border" />
+          <p className="py-2.5 text-xs text-gray-600 text-center">
+            Privacy Policy • Terms of Service
+          </p>
         </div>
       )}
     </header>

@@ -7,13 +7,19 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
 interface Types {
   setSearchToggler: Dispatch<SetStateAction<boolean>>;
+  className?: string;
 }
 
-const Search = ({ setSearchToggler }: Types) => {
+const Search = ({ setSearchToggler, className }: Types) => {
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
   return (
-    <div className="bg-search px-3 rounded-md flex items-center justify-between">
+    <div
+      className={`px-3 rounded-md flex items-center transition-all duration-300 justify-between ${className} ${
+        isFocused ? `bg-white shadow-lg` : `bg-search`
+      }`}
+    >
       <IconButton
         Icon={SearchIcon}
         label="Search"
@@ -23,11 +29,13 @@ const Search = ({ setSearchToggler }: Types) => {
       <input
         type="text"
         placeholder="Search mail"
-        className="bg-transparent flex-grow py-3 outline-none ml-0.5"
+        className="bg-transparent flex-grow py-2 outline-none ml-0.5"
         value={searchValue}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearchValue(e.target.value)
         }
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
       {searchValue !== "" && (
         <IconButton
@@ -48,7 +56,7 @@ const Search = ({ setSearchToggler }: Types) => {
         <IconButton
           Icon={ClearIcon}
           label="Close"
-          className="hover:bg-[#DCE3EC]"
+          className="hover:bg-[#DCE3EC] md:hidden"
           labelClassName="right-0"
           handleClick={() => setSearchToggler(false)}
         />
