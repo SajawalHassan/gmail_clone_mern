@@ -3,7 +3,15 @@ import TuneIcon from "@mui/icons-material/TuneOutlined";
 import ClearIcon from "@mui/icons-material/ClearOutlined";
 import IconButton from "../global/IconButton";
 
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
+import useOutsideAlerter from "../../hooks/useOutsideAlerter";
 
 interface Types {
   setSearchToggler: Dispatch<SetStateAction<boolean>>;
@@ -14,11 +22,15 @@ const Search = ({ setSearchToggler, className }: Types) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
+  const searchRef = useRef() as MutableRefObject<HTMLDivElement>;
+  useOutsideAlerter(searchRef, setSearchToggler);
+
   return (
     <div
       className={`px-3 rounded-md flex items-center transition-all duration-300 justify-between ${className} ${
         isFocused ? `bg-white shadow-lg` : `bg-search`
       }`}
+      ref={searchRef}
     >
       <IconButton
         Icon={SearchIcon}
