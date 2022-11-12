@@ -8,6 +8,7 @@ import IconButton from "../global/IconButton";
 import Search from "./Search";
 import MenuOption from "../global/MenuOption";
 import useOutsideAlerter from "../../hooks/useOutsideAlerter";
+import ProfilePicture from "../global/ProfilePicture";
 
 import { Link } from "react-router-dom";
 import { MutableRefObject, useRef, useState } from "react";
@@ -30,6 +31,10 @@ const Header = () => {
   const profileMenuRef = useRef() as MutableRefObject<HTMLDivElement>;
   useOutsideAlerter(helpMenuRef, setHelpMenu);
   useOutsideAlerter(profileMenuRef, setProfileMenu);
+
+  const signOut = () => {
+    window.open(`${apiURL}/auth/logout`, "_self");
+  };
 
   return (
     <header className="p-2 bg-header">
@@ -75,12 +80,7 @@ const Header = () => {
               labelClassName="-left-[19px]"
             />
             <div className="group relative">
-              <img
-                src={user.profilePic}
-                alt="Profile"
-                className="h-8 rounded-full cursor-pointer border border-transparent active:border-blue-500"
-                onClick={() => setProfileMenu(true)}
-              />
+              <ProfilePicture handleClick={() => setProfileMenu(true)} />
               <div className="group-hover:opacity-100 opacity-0 absolute transition-opacity group-hover:delay-1000 top-10 py-1 px-2 bg-zinc-700  text-white text-[10px] font-bold rounded-[4px] w-max right-0 delay-200">
                 <p>Google Account</p>
                 <p className="text-gray-400">{user.username}</p>
@@ -134,7 +134,7 @@ const Header = () => {
           <div className="flex justify-center my-4">
             <button
               className="px-4 py-2 border rounded-md text-sm text-gray-600 font-[500] hover:bg-gray-100 active:shadow-md"
-              onClick={() => window.open(`${apiURL}/auth/logout`, "_self")}
+              onClick={() => signOut()}
             >
               Sign out
             </button>

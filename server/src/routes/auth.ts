@@ -2,7 +2,6 @@
 
 import express, { Router, Request, Response } from "express";
 import passport from "passport";
-import User from "../models/User";
 
 const clientURL: string =
   process.env.NODE_ENV == "production"
@@ -37,8 +36,15 @@ router.get(
 );
 
 router.get("/logout", (req: Request, res: Response) => {
-  req.logout;
-  res.redirect(clientURL);
+  req.logout({}, (err: any) => {
+    if (err) return res.status(500).json({ message: "Something went wrong." });
+    res.redirect(clientURL);
+  });
 });
+
+// router.delete("/all", async (_req: Request, res: Response) => {
+//   await User.find().deleteMany();
+//   res.json("Deleted!");
+// });
 
 export default router;
