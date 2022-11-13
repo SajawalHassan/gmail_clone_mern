@@ -5,10 +5,13 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
-
-import authRoutes from "./routes/auth";
-import "./passport";
 import mongoose from "mongoose";
+import authRoutes from "./routes/authRoutes";
+import mailsRoutes from "./routes/mailsRoutes";
+
+import { verifyIsAuth } from "./middleware/verifyIsAuth";
+
+import "./passport";
 
 dotenv.config();
 
@@ -34,8 +37,12 @@ app.use(cors({ origin, credentials: true }));
 app.use(morgan("dev"));
 app.use(helmet());
 
-// App Middleware
+// Middleware
 app.use("/auth", authRoutes);
+
+app.use(verifyIsAuth);
+
+app.use("/mails", mailsRoutes);
 
 // Mongodb
 mongoose.connect(`${process.env.MONGO_URI}`, () =>
