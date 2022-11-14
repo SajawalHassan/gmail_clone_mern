@@ -13,6 +13,8 @@ export const createPost = async (req: RequestTypes, res: Response) => {
     const { body, subject, recieverEmail } = req.body;
     const { _id: senderId } = req?.user;
 
+    const sender = await User.findById(senderId);
+
     const reciever = await User.findOne({ email: recieverEmail });
     if (!reciever)
       return res.status(404).json({ error: "Reciever not found!" });
@@ -21,15 +23,28 @@ export const createPost = async (req: RequestTypes, res: Response) => {
       subject,
       body,
       recieverEmail,
-      senderId,
+      sender,
     });
-
-    const sender = await User.findById(senderId);
 
     res.json({
       message: "Mail created successfuly!",
-      data: { mail: newMail, sender, reciever },
+      data: { mail: newMail, reciever },
     });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong. /:" });
+  }
+};
+
+export const getUsersMails = async (req: RequestTypes, res: Response) => {
+  try {
+    const mails: any = await Mail.find({ recieverEmail: req.user.email });
+    const mailSenders = await User.find({
+      _id: mails.map((mail: any) => {
+        return mail.senderId;
+      }),
+    });
+
+    res.json({ message: "Request successful!", data: { mails, mailSenders } });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong. /:" });
   }

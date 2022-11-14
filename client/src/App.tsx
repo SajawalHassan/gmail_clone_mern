@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./app/store";
 import { useDispatch } from "react-redux";
 import { setSocket } from "./features/socketSlice";
+import Mails from "./components/mails/Mails";
 
 function App() {
   const [createMailValue, setCreateMailValue] = useState<boolean>(false);
@@ -20,12 +21,6 @@ function App() {
   useEffect(() => {
     dispatch(setSocket(socket));
   }, [dispatch, socket]);
-
-  useEffect(() => {
-    socket.on("recieveMessage", (data) => {
-      console.log(data);
-    });
-  }, [socket]);
 
   useEffect(() => {
     if (user._id) {
@@ -45,6 +40,7 @@ function App() {
       {createMailValue && (
         <CreateMail setCreateMailValue={setCreateMailValue} />
       )}
+      <Mails />
     </div>
   );
 }

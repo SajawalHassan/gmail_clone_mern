@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const mailSchema = new Schema(
+const mailSchema: Schema = new Schema(
   {
     recieverEmail: {
       type: String,
@@ -14,8 +14,8 @@ const mailSchema = new Schema(
       type: String,
       required: true,
     },
-    senderId: {
-      type: String,
+    sender: {
+      type: Object,
       required: true,
     },
   },

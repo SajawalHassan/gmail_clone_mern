@@ -41,22 +41,17 @@ io.on("connection", (socket) => {
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
     io.emit("getUsers", users);
-    console.log({ users });
   });
 
   socket.on("sendMail", (data) => {
     const reciever: any = getUser(data.reciever._id);
-    console.log({ reciever });
     io.to(reciever.socketId).emit("recieveMessage", {
       mail: data.mail,
-      sender: data.sender,
     });
-    console.log({ users });
   });
 
   socket.on("disconnect", () => {
     console.log(`User[${socket.id}] disconnected!`);
     removeUser(socket.id);
-    console.log({ users });
   });
 });

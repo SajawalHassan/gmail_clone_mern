@@ -44,9 +44,9 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
   };
 
   return (
-    <div className="fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center">
+    <div className="fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center md:bg-transparent md:flex md:justify-end md:items-end">
       <div
-        className="h-full w-full sm:w-[95vw] sm:h-[85vh] bg-white sm:rounded-md relative"
+        className="h-full w-full sm:w-[95vw] sm:h-[85vh] bg-white sm:rounded-md relative md:max-w-[40rem] md:max-h-[40rem] md:shadow-2xl"
         ref={dialogeRef}
       >
         <header className="bg-search w-full flex items-center justify-between px-3 py-2 rounded-t-md">

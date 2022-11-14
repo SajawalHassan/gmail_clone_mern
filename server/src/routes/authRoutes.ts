@@ -2,6 +2,7 @@
 
 import express, { Router, Request, Response } from "express";
 import passport from "passport";
+import Mail from "../models/Mail";
 
 const clientURL: string =
   process.env.NODE_ENV == "production"
@@ -43,7 +44,7 @@ router.get("/logout", (req: Request, res: Response) => {
 });
 
 // router.delete("/all", async (_req: Request, res: Response) => {
-//   await User.find().deleteMany();
+//   await Mail.find().deleteMany();
 //   res.json("Deleted!");
 // });
 
