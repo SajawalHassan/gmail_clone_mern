@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   return (
-    <header className="p-2 bg-header">
+    <header className="p-2 bg-header max-h-[3.6rem] min-h-[3.6rem] flex-grow-0 flex-shrink basis-auto">
       {!searchToggler && (
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-grow">
@@ -93,7 +93,7 @@ const Header = () => {
 
       {searchToggler && <Search setSearchToggler={setSearchToggler} />}
       {helpMenu && (
-        <div className="menu right-28 min-w-[15rem]" ref={helpMenuRef}>
+        <div className="menu right-28 min-w-[15rem] z-50" ref={helpMenuRef}>
           <MenuOption text="Help" />
           <MenuOption text="Training" />
           <MenuOption text="Updates" />
@@ -102,7 +102,7 @@ const Header = () => {
         </div>
       )}
       {profileMenu && (
-        <div className="menu right-7 min-w-[20rem]" ref={profileMenuRef}>
+        <div className="menu right-7 min-w-[20rem] z-50" ref={profileMenuRef}>
           <div className="flex flex-col items-center text-center">
             <img
               src={user.profilePic}

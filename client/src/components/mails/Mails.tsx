@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "../../api/axios";
 import { RootState } from "../../app/store";
-import Mail from "./Mail";
+import MailCard from "./MailCard";
 
 const Mails = () => {
   const [mails, setMails] = useState<any>();
@@ -31,10 +31,12 @@ const Mails = () => {
   }, [mails, socket]);
 
   return (
-    <div>
-      {mails?.map((mail: any) => (
-        <Mail mail={mail} key={mail._id} />
-      ))}
+    <div className="bg-header p-3 flex-auto">
+      <div className="bg-white rounded-3xl h-full p-3">
+        {mails?.map((mail: any) => (
+          <MailCard mail={mail} key={mail._id} />
+        ))}
+      </div>
     </div>
   );
 };

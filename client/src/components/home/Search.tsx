@@ -64,15 +64,6 @@ const Search = ({ setSearchToggler, className }: Types) => {
         className="hover:bg-[#DCE3EC]"
         labelClassName={searchValue === "" ? `-left-12` : `right-0`}
       />
-      {searchValue === "" && (
-        <IconButton
-          Icon={ClearIcon}
-          label="Close"
-          className="hover:bg-[#DCE3EC] md:hidden"
-          labelClassName="right-0"
-          handleClick={() => setSearchToggler(false)}
-        />
-      )}
     </div>
   );
 };

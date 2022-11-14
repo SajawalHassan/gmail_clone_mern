@@ -31,10 +31,11 @@ function App() {
   }, [socket, user._id]);
 
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Header />
+      <Mails />
       <button
-        className="p-2 bg-search rounded-md"
+        className="p-2 rounded-md bg-header"
         onClick={() => setCreateMailValue(true)}
       >
         Compose
@@ -43,7 +44,6 @@ function App() {
         <CreateMail setCreateMailValue={setCreateMailValue} />
       )}
       {error && <Error />}
-      <Mails />
     </div>
   );
 }
