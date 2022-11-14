@@ -8,10 +8,12 @@ import {
   useRef,
   useState,
 } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "../api/axios";
 import { RootState } from "../app/store";
 import IconButton from "../components/global/IconButton";
+import { setError } from "../features/mailSlice";
 import useOutsideAlerter from "../hooks/useOutsideAlerter";
 
 interface Types {
@@ -24,7 +26,9 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
   const [body, setBody] = useState<string>("");
 
   const { socket } = useSelector((state: RootState) => state.socket);
+  const { error } = useSelector((state: RootState) => state.mails);
 
+  const dispatch = useDispatch();
   const dialogeRef = useRef() as MutableRefObject<HTMLDivElement>;
   useOutsideAlerter(dialogeRef, setCreateMailValue);
 
@@ -38,16 +42,19 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
       });
 
       socket.emit("sendMail", data.data);
+      setRecieverEmail("");
+      setSubject("");
+      setBody("");
     } catch (err: any) {
-      console.log(err.response.data.error);
+      dispatch(setError(err.response.data.error));
     }
   };
 
   return (
-    <div className="fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center md:bg-transparent md:flex md:justify-end md:items-end">
+    <div className="modal-outer md:bg-transparent md:flex md:justify-end md:items-end">
       <div
-        className="h-full w-full sm:w-[95vw] sm:h-[85vh] bg-white sm:rounded-md relative md:max-w-[40rem] md:max-h-[40rem] md:shadow-2xl"
-        ref={dialogeRef}
+        className="modal-inner sm:w-[95vw] sm:h-[85vh] md:max-w-[40rem] md:max-h-[40rem] md:shadow-2xl"
+        ref={error ? null : dialogeRef}
       >
         <header className="bg-search w-full flex items-center justify-between px-3 py-2 rounded-t-md">
           <h1 className="text-sm font-[500]">New Message</h1>

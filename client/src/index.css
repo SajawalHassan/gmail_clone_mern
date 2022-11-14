@@ -11,6 +11,12 @@
   .menu {
     @apply py-1 rounded-md shadow-lg fixed bg-white border-x-2 border-t-[2px];
   }
+  .modal-outer {
+    @apply fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center;
+  }
+  .modal-inner {
+    @apply h-full w-full sm:rounded-md relative bg-white;
+  }
 }
 
 body {

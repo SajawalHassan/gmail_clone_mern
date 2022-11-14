@@ -8,6 +8,7 @@ import { RootState } from "./app/store";
 import { useDispatch } from "react-redux";
 import { setSocket } from "./features/socketSlice";
 import Mails from "./components/mails/Mails";
+import Error from "./modals/Error";
 
 function App() {
   const [createMailValue, setCreateMailValue] = useState<boolean>(false);
@@ -16,6 +17,7 @@ function App() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state: RootState) => state.auth);
+  const { error } = useSelector((state: RootState) => state.mails);
   const { current: socket } = socketIo;
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function App() {
       {createMailValue && (
         <CreateMail setCreateMailValue={setCreateMailValue} />
       )}
+      {error && <Error />}
       <Mails />
     </div>
   );
