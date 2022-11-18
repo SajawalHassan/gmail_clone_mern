@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   return (
-    <header className="p-2 bg-header max-h-[3.6rem] min-h-[3.6rem] flex-grow-0 flex-shrink basis-auto">
+    <header className="p-2 bg-header max-h-[3.6rem] min-h-[3.6rem] flex-grow-0 flex-shrink basis-auto sticky top-0 z-50">
       {!searchToggler && (
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-grow">

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./app/store";
 import { useDispatch } from "react-redux";
 import { setSocket } from "./features/socketSlice";
-import Mails from "./components/mails/Mails";
+import Mails from "./components/home/mails/Mails";
 import Error from "./modals/Error";
 
 function App() {

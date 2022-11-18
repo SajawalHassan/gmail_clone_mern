@@ -19,12 +19,14 @@ export const createPost = async (req: RequestTypes, res: Response) => {
     if (!reciever)
       return res.status(404).json({ error: "Reciever not found!" });
 
-    const newMail = await Mail.create({
+    const newMail = new Mail({
       subject,
       body,
       recieverEmail,
       sender,
     });
+
+    await newMail.save();
 
     res.json({
       message: "Mail created successfuly!",
@@ -35,16 +37,43 @@ export const createPost = async (req: RequestTypes, res: Response) => {
   }
 };
 
-export const getUsersMails = async (req: RequestTypes, res: Response) => {
+export const getPrimaryMails = async (req: RequestTypes, res: Response) => {
   try {
-    const mails: any = await Mail.find({ recieverEmail: req.user.email });
-    const mailSenders = await User.find({
-      _id: mails.map((mail: any) => {
-        return mail.senderId;
-      }),
+    let mails: Array<any> = await Mail.find({
+      recieverEmail: req.user.email,
     });
 
-    res.json({ message: "Request successful!", data: { mails, mailSenders } });
+    mails = mails.filter((mail) => mail.mailType === "primary");
+
+    res.json({ message: "Request successful!", mails });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong. /:" });
+  }
+};
+
+export const getPromotionMails = async (req: RequestTypes, res: Response) => {
+  try {
+    let mails: Array<any> = await Mail.find({
+      recieverEmail: req.user.email,
+    });
+
+    mails = mails.filter((mail) => mail.mailType === "promotions");
+
+    res.json({ message: "Request successful!", mails });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong. /:" });
+  }
+};
+
+export const getSocialMails = async (req: RequestTypes, res: Response) => {
+  try {
+    let mails: Array<any> = await Mail.find({
+      recieverEmail: req.user.email,
+    });
+
+    mails = mails.filter((mail) => mail.mailType === "social");
+
+    res.json({ message: "Request successful!", mails });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong. /:" });
   }

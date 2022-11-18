@@ -13,6 +13,7 @@ const MailCard = ({ mail }: Types) => {
         src={mail.sender.profilePic}
         alt="Sender Profile"
         className="h-10 rounded-full"
+        referrerPolicy="no-referrer"
       />
 
       <div className="w-full truncate">

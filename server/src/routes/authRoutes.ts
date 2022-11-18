@@ -43,9 +43,9 @@ router.get("/logout", (req: Request, res: Response) => {
   });
 });
 
-// router.delete("/all", async (_req: Request, res: Response) => {
-//   await Mail.find().deleteMany();
-//   res.json("Deleted!");
-// });
+router.delete("/all", async (_req: Request, res: Response) => {
+  await Mail.find().deleteMany();
+  res.json("Deleted!");
+});
 
 export default router;

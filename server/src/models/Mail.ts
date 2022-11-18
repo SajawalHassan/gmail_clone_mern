@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { identifyMail } from "../utils/mailSeperation";
 
 const mailSchema: Schema = new Schema(
   {
@@ -18,8 +19,18 @@ const mailSchema: Schema = new Schema(
       type: Object,
       required: true,
     },
+    mailType: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );
+
+mailSchema.pre("save", function () {
+  const mailType = identifyMail(this);
+
+  this.mailType = mailType;
+});
 
 export default model("mails", mailSchema);
