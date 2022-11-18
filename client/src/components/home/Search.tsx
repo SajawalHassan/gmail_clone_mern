@@ -21,6 +21,7 @@ interface Types {
 const Search = ({ setSearchToggler, className }: Types) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [autofocus, setAutoFocus] = useState<boolean>(true);
 
   const searchRef = useRef() as MutableRefObject<HTMLDivElement>;
   useOutsideAlerter(searchRef, setSearchToggler);
@@ -35,26 +36,26 @@ const Search = ({ setSearchToggler, className }: Types) => {
       <IconButton
         Icon={SearchIcon}
         label="Search"
-        labelClassName="-left-2"
         className="hover:bg-[#DCE3EC]"
       />
       <input
         type="text"
         placeholder="Search mail"
-        className="bg-transparent flex-grow py-2 outline-none ml-0.5"
+        className={`bg-transparent flex-grow py-2 outline-none ml-0.5 md:${() =>
+          setAutoFocus(false)}`}
         value={searchValue}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearchValue(e.target.value)
         }
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        autoFocus={autofocus}
       />
       {searchValue !== "" && (
         <IconButton
           Icon={ClearIcon}
           label="Clear search"
           className="hover:bg-[#DCE3EC]"
-          labelClassName="-left-7"
           handleClick={() => setSearchValue("")}
         />
       )}
@@ -62,7 +63,6 @@ const Search = ({ setSearchToggler, className }: Types) => {
         Icon={TuneIcon}
         label="Show search options"
         className="hover:bg-[#DCE3EC]"
-        labelClassName={searchValue === "" ? `-left-12` : `right-0`}
       />
     </div>
   );

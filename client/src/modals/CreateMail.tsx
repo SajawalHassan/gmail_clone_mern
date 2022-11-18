@@ -45,6 +45,7 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
       setRecieverEmail("");
       setSubject("");
       setBody("");
+      setCreateMailValue(false);
     } catch (err: any) {
       dispatch(setError(err.response.data.error));
     }
@@ -62,7 +63,6 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
             Icon={CloseIcon}
             label="Close"
             className="rounded-none p-0"
-            labelClassName="right-0 top-7"
             handleClick={() => setCreateMailValue(false)}
           />
         </header>

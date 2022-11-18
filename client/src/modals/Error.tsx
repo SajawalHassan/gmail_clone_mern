@@ -19,7 +19,6 @@ const Error = () => {
           <IconButton
             Icon={CloseIcon}
             label="Close"
-            labelClassName="-left-2.5"
             handleClick={() => dispatch(setError(false))}
           />
         </div>

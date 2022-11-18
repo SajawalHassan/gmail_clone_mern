@@ -59,26 +59,16 @@ const Header = () => {
             <IconButton
               Icon={SearchIcon}
               label="Search"
-              labelClassName="-left-2"
               className="md:hidden"
               handleClick={() => setSearchToggler(true)}
             />
             <IconButton
               Icon={HelpIcon}
               label="Support"
-              labelClassName="-left-2.5"
               handleClick={() => setHelpMenu(true)}
             />
-            <IconButton
-              Icon={SettingsIcon}
-              label="Settings"
-              labelClassName="-left-2.5"
-            />
-            <IconButton
-              Icon={AppsIcon}
-              label="Google Apps"
-              labelClassName="-left-[19px]"
-            />
+            <IconButton Icon={SettingsIcon} label="Settings" />
+            <IconButton Icon={AppsIcon} label="Google Apps" />
             <div className="group relative">
               <ProfilePicture handleClick={() => setProfileMenu(true)} />
               <div className="group-hover:opacity-100 opacity-0 absolute transition-opacity group-hover:delay-1000 top-10 py-1 px-2 bg-zinc-700  text-white text-[10px] font-bold rounded-[4px] w-max right-0 delay-200">

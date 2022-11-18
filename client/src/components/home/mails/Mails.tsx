@@ -58,11 +58,11 @@ const Mails = () => {
       socket.on("recieveMessage", ({ mail }: any) => {
         if (mail.mailType === activeTab) {
           if (activeTab === "primary") {
-            primaryMails && setPrimaryMails([...primaryMails, mail]);
+            primaryMails && setPrimaryMails([mail, ...primaryMails]);
           } else if (activeTab === "promotions") {
-            promotionMails && setPromotionMails([...promotionMails, mail]);
+            promotionMails && setPromotionMails([mail, ...promotionMails]);
           } else {
-            socialMails && setSocialMails([...socialMails, mail]);
+            socialMails && setSocialMails([mail, ...socialMails]);
           }
         }
       });
@@ -78,9 +78,9 @@ const Mails = () => {
   ]);
 
   return (
-    <div className="bg-header p-3 flex-auto overflow-hidden">
-      <div className="bg-white rounded-3xl h-full p-3 overflow-scroll">
-        <div className="flex items-center space-x-3">
+    <div className="bg-header py-3 px-5 flex-auto overflow-hidden">
+      <div className="bg-white rounded-3xl h-full py-3 overflow-scroll">
+        <div className="flex items-center space-x-3 px-3">
           <Checkbox
             isSelected={allSelected}
             setIsSelected={setAllSelected}
@@ -89,7 +89,6 @@ const Mails = () => {
           <IconButton
             Icon={RefreshIcon}
             label="Refresh"
-            labelClassName="-left-2"
             iconClassName="!text-xl"
           />
           {tabsAreShown ? (
@@ -97,7 +96,6 @@ const Mails = () => {
               Icon={ArrowUpwardIcon}
               label="Hide tabs"
               className="sm:hidden"
-              labelClassName="-left-3.5"
               handleClick={() => setTabsAreShown(false)}
             />
           ) : (
@@ -105,7 +103,6 @@ const Mails = () => {
               Icon={ArrowDownwardIcon}
               label="Show tabs"
               className="sm:hidden"
-              labelClassName="-left-3.5"
               handleClick={() => setTabsAreShown(true)}
             />
           )}
@@ -134,11 +131,13 @@ const Mails = () => {
             onClick={() => setActiveTab("social")}
           />
         </div>
-        <div className="mt-3">
+        <div className="w-full">
           {activeTab === "primary" &&
             (primaryMails?.length !== 0 ? (
               primaryMails?.map((mail: any) => (
-                <MailCard mail={mail} key={mail._id} />
+                <div className="sm:last:border-b">
+                  <MailCard mail={mail} key={mail._id} />
+                </div>
               ))
             ) : (
               <h1 className="text-center font-bold text-3xl">
@@ -148,7 +147,9 @@ const Mails = () => {
           {activeTab === "promotions" &&
             (promotionMails?.length !== 0 ? (
               promotionMails?.map((mail: any) => (
-                <MailCard mail={mail} key={mail._id} />
+                <div className="sm:last:border-b">
+                  <MailCard mail={mail} key={mail._id} />
+                </div>
               ))
             ) : (
               <h1 className="text-center font-bold text-3xl">
@@ -158,7 +159,9 @@ const Mails = () => {
           {activeTab === "social" &&
             (socialMails?.length !== 0 ? (
               socialMails?.map((mail: any) => (
-                <MailCard mail={mail} key={mail._id} />
+                <div className="sm:last:border-b">
+                  <MailCard mail={mail} key={mail._id} />
+                </div>
               ))
             ) : (
               <h1 className="text-center font-bold text-3xl">
