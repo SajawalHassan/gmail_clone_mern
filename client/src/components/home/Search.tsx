@@ -21,7 +21,6 @@ interface Types {
 const Search = ({ setSearchToggler, className }: Types) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [autofocus, setAutoFocus] = useState<boolean>(true);
 
   const searchRef = useRef() as MutableRefObject<HTMLDivElement>;
   useOutsideAlerter(searchRef, setSearchToggler);
@@ -41,15 +40,13 @@ const Search = ({ setSearchToggler, className }: Types) => {
       <input
         type="text"
         placeholder="Search mail"
-        className={`bg-transparent flex-grow py-2 outline-none ml-0.5 md:${() =>
-          setAutoFocus(false)}`}
+        className="bg-transparent flex-grow py-2 outline-none ml-0.5"
         value={searchValue}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearchValue(e.target.value)
         }
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        autoFocus={autofocus}
       />
       {searchValue !== "" && (
         <IconButton

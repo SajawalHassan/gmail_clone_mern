@@ -13,16 +13,26 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownwardOutlined";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import Checkbox from "../../global/Checkbox";
 import IconButton from "../../global/IconButton";
+import { useDispatch } from "react-redux";
+import {
+  setIsLoading,
+  setPrimaryMails,
+  setPromotionMails,
+  setSocialMails,
+} from "../../../features/mailSlice";
+import Loader from "../../global/Loader";
 
 const Mails = () => {
-  const [primaryMails, setPrimaryMails] = useState<Array<any>>([]);
-  const [promotionMails, setPromotionMails] = useState<Array<any>>([]);
-  const [socialMails, setSocialMails] = useState<Array<any>>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [tabsAreShown, setTabsAreShown] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("primary");
 
   const { socket } = useSelector((state: RootState) => state.socket);
+  const { primaryMails, promotionMails, socialMails, isLoading } = useSelector(
+    (state: RootState) => state.mails
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getMails = async () => {
@@ -30,18 +40,21 @@ const Mails = () => {
       if (activeTab === "promotions" && promotionMails?.length !== 0) return;
       if (activeTab === "social" && socialMails?.length !== 0) return;
 
+      dispatch(setIsLoading(true));
       try {
         const { data } = await axios.get(`/mails/${activeTab}`);
 
         if (activeTab === "primary") {
-          setPrimaryMails(data.mails);
+          dispatch(setPrimaryMails(data.mails));
         } else if (activeTab === "promotions") {
-          setPromotionMails(data.mails);
+          dispatch(setPromotionMails(data.mails));
         } else {
-          setSocialMails(data.mails);
+          dispatch(setSocialMails(data.mails));
         }
       } catch (error: any) {
         console.log(error.response?.data);
+      } finally {
+        dispatch(setIsLoading(false));
       }
     };
 
@@ -58,11 +71,12 @@ const Mails = () => {
       socket.on("recieveMessage", ({ mail }: any) => {
         if (mail.mailType === activeTab) {
           if (activeTab === "primary") {
-            primaryMails && setPrimaryMails([mail, ...primaryMails]);
+            primaryMails && dispatch(setPrimaryMails([mail, ...primaryMails]));
           } else if (activeTab === "promotions") {
-            promotionMails && setPromotionMails([mail, ...promotionMails]);
+            promotionMails &&
+              dispatch(setPromotionMails([mail, ...promotionMails]));
           } else {
-            socialMails && setSocialMails([mail, ...socialMails]);
+            socialMails && dispatch(setSocialMails([mail, ...socialMails]));
           }
         }
       });
@@ -131,44 +145,48 @@ const Mails = () => {
             onClick={() => setActiveTab("social")}
           />
         </div>
-        <div className="w-full">
-          {activeTab === "primary" &&
-            (primaryMails?.length !== 0 ? (
-              primaryMails?.map((mail: any) => (
-                <div className="sm:last:border-b">
-                  <MailCard mail={mail} key={mail._id} />
-                </div>
-              ))
-            ) : (
-              <h1 className="text-center font-bold text-3xl">
-                Theres nothing to see here. /:
-              </h1>
-            ))}
-          {activeTab === "promotions" &&
-            (promotionMails?.length !== 0 ? (
-              promotionMails?.map((mail: any) => (
-                <div className="sm:last:border-b">
-                  <MailCard mail={mail} key={mail._id} />
-                </div>
-              ))
-            ) : (
-              <h1 className="text-center font-bold text-3xl">
-                Theres nothing to see here. /:
-              </h1>
-            ))}
-          {activeTab === "social" &&
-            (socialMails?.length !== 0 ? (
-              socialMails?.map((mail: any) => (
-                <div className="sm:last:border-b">
-                  <MailCard mail={mail} key={mail._id} />
-                </div>
-              ))
-            ) : (
-              <h1 className="text-center font-bold text-3xl">
-                Theres nothing to see here. /:
-              </h1>
-            ))}
-        </div>
+        {isLoading ? (
+          <Loader className="m-auto mt-20" />
+        ) : (
+          <div className="w-full">
+            {activeTab === "primary" &&
+              (primaryMails?.length !== 0 ? (
+                primaryMails?.map((mail: any) => (
+                  <div className="sm:last:border-b">
+                    <MailCard mail={mail} key={mail._id} />
+                  </div>
+                ))
+              ) : (
+                <h1 className="text-center font-bold text-3xl">
+                  Theres nothing to see here. /:
+                </h1>
+              ))}
+            {activeTab === "promotions" &&
+              (promotionMails?.length !== 0 ? (
+                promotionMails?.map((mail: any) => (
+                  <div className="sm:last:border-b">
+                    <MailCard mail={mail} key={mail._id} />
+                  </div>
+                ))
+              ) : (
+                <h1 className="text-center font-bold text-3xl">
+                  Theres nothing to see here. /:
+                </h1>
+              ))}
+            {activeTab === "social" &&
+              (socialMails?.length !== 0 ? (
+                socialMails?.map((mail: any) => (
+                  <div className="sm:last:border-b">
+                    <MailCard mail={mail} key={mail._id} />
+                  </div>
+                ))
+              ) : (
+                <h1 className="text-center font-bold text-3xl">
+                  Theres nothing to see here. /:
+                </h1>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );

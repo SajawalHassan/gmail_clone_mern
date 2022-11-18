@@ -21,7 +21,7 @@ const MailCard = ({ mail }: Types) => {
   createdAt = new Date().toLocaleDateString("en-US");
 
   return (
-    <div className="flex items-center space-x-2 p-2 sm:py-1.5 sm:hover:shadow-md sm:hover:shadow-gray-400 cursor-pointer sm:border-t group max-h-[2.8rem] hover:bg-gray-50">
+    <div className="flex items-center space-x-2 p-2 sm:py-1.5 sm:hover:shadow-md sm:hover:shadow-gray-400 cursor-pointer sm:border-t group sm:max-h-[2.8rem] hover:bg-gray-50">
       <img
         src={mail.sender.profilePic}
         alt="Sender Profile"
