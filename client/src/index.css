@@ -12,10 +12,10 @@
     @apply py-1 rounded-md shadow-lg fixed bg-white border-x-2 border-t-[2px];
   }
   .modal-outer {
-    @apply fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center;
+    @apply fixed h-screen w-screen bg-black bg-opacity-50 top-0 sm:grid sm:place-content-center z-50;
   }
   .modal-inner {
-    @apply h-full w-full sm:rounded-md relative bg-white;
+    @apply h-full w-full sm:rounded-md relative bg-white z-50;
   }
 }
 

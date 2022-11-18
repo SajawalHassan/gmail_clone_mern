@@ -2,7 +2,7 @@ import { promotionData, socialData } from "../data/mailData";
 
 const checkInclusion = (data: Array<any>, mail: any): boolean => {
   const result: boolean =
-    data.some((keyword) => mail?.subject.toLowerCase().includes(keyword)) &&
+    data.some((keyword) => mail?.subject.toLowerCase().includes(keyword)) ||
     data.some((keyword) => mail?.body.toLowerCase().includes(keyword));
 
   return result;

@@ -15,7 +15,9 @@ import Checkbox from "../../global/Checkbox";
 import IconButton from "../../global/IconButton";
 
 const Mails = () => {
-  const [mails, setMails] = useState<Array<any>>();
+  const [primaryMails, setPrimaryMails] = useState<Array<any>>([]);
+  const [promotionMails, setPromotionMails] = useState<Array<any>>([]);
+  const [socialMails, setSocialMails] = useState<Array<any>>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [tabsAreShown, setTabsAreShown] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("primary");
@@ -24,26 +26,56 @@ const Mails = () => {
 
   useEffect(() => {
     const getMails = async () => {
+      if (activeTab === "primary" && primaryMails?.length !== 0) return;
+      if (activeTab === "promotions" && promotionMails?.length !== 0) return;
+      if (activeTab === "social" && socialMails?.length !== 0) return;
+
       try {
         const { data } = await axios.get(`/mails/${activeTab}`);
 
-        setMails(data.mails);
+        if (activeTab === "primary") {
+          setPrimaryMails(data.mails);
+        } else if (activeTab === "promotions") {
+          setPromotionMails(data.mails);
+        } else {
+          setSocialMails(data.mails);
+        }
       } catch (error: any) {
         console.log(error.response?.data);
       }
     };
 
     getMails();
-  }, [activeTab]);
+  }, [
+    activeTab,
+    primaryMails?.length,
+    socialMails?.length,
+    promotionMails?.length,
+  ]);
 
   useEffect(() => {
     socket &&
       socket.on("recieveMessage", ({ mail }: any) => {
-        if (mails && mail.mailType === activeTab) {
-          setMails([...mails, mail]);
+        if (mail.mailType === activeTab) {
+          if (activeTab === "primary") {
+            primaryMails && setPrimaryMails([...primaryMails, mail]);
+          } else if (activeTab === "promotions") {
+            promotionMails && setPromotionMails([...promotionMails, mail]);
+          } else {
+            socialMails && setSocialMails([...socialMails, mail]);
+          }
         }
       });
-  }, [mails, socket, activeTab]);
+  }, [
+    primaryMails,
+    socket,
+    activeTab,
+    promotionMails,
+    socialMails,
+    primaryMails?.length,
+    promotionMails?.length,
+    socialMails?.length,
+  ]);
 
   return (
     <div className="bg-header p-3 flex-auto overflow-hidden">
@@ -103,13 +135,36 @@ const Mails = () => {
           />
         </div>
         <div className="mt-3">
-          {mails?.length !== 0 ? (
-            mails?.map((mail: any) => <MailCard mail={mail} key={mail._id} />)
-          ) : (
-            <h1 className="text-center font-bold text-3xl">
-              Theres nothing to see here. /:
-            </h1>
-          )}
+          {activeTab === "primary" &&
+            (primaryMails?.length !== 0 ? (
+              primaryMails?.map((mail: any) => (
+                <MailCard mail={mail} key={mail._id} />
+              ))
+            ) : (
+              <h1 className="text-center font-bold text-3xl">
+                Theres nothing to see here. /:
+              </h1>
+            ))}
+          {activeTab === "promotions" &&
+            (promotionMails?.length !== 0 ? (
+              promotionMails?.map((mail: any) => (
+                <MailCard mail={mail} key={mail._id} />
+              ))
+            ) : (
+              <h1 className="text-center font-bold text-3xl">
+                Theres nothing to see here. /:
+              </h1>
+            ))}
+          {activeTab === "social" &&
+            (socialMails?.length !== 0 ? (
+              socialMails?.map((mail: any) => (
+                <MailCard mail={mail} key={mail._id} />
+              ))
+            ) : (
+              <h1 className="text-center font-bold text-3xl">
+                Theres nothing to see here. /:
+              </h1>
+            ))}
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@ export const getPrimaryMails = async (req: RequestTypes, res: Response) => {
   try {
     let mails: Array<any> = await Mail.find({
       recieverEmail: req.user.email,
-    });
+    }).sort({ createdAt: -1 });
 
     mails = mails.filter((mail) => mail.mailType === "primary");
 
@@ -55,7 +55,7 @@ export const getPromotionMails = async (req: RequestTypes, res: Response) => {
   try {
     let mails: Array<any> = await Mail.find({
       recieverEmail: req.user.email,
-    });
+    }).sort({ createdAt: -1 });
 
     mails = mails.filter((mail) => mail.mailType === "promotions");
 
@@ -69,7 +69,7 @@ export const getSocialMails = async (req: RequestTypes, res: Response) => {
   try {
     let mails: Array<any> = await Mail.find({
       recieverEmail: req.user.email,
-    });
+    }).sort({ createdAt: -1 });
 
     mails = mails.filter((mail) => mail.mailType === "social");
 
