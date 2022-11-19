@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
-  createPost,
+  createMail,
+  deleteMails,
   getPrimaryMails,
   getPromotionMails,
   getSocialMails,
@@ -8,7 +9,8 @@ import {
 
 const router: any = Router();
 
-router.post("/create", createPost);
+router.post("/create", createMail);
+router.delete("/delete", deleteMails);
 router.get("/primary", getPrimaryMails);
 router.get("/promotions", getPromotionMails);
 router.get("/social", getSocialMails);

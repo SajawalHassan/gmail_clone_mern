@@ -6,6 +6,9 @@ import Checkbox from "../../global/Checkbox";
 import IconButton from "../../global/IconButton";
 import ArchiveIcon from "@mui/icons-material/ArchiveOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import axios from "../../../api/axios";
+import { useDispatch } from "react-redux";
+import { filterMails } from "../../../features/mailSlice";
 
 interface Types {
   mail: any;
@@ -15,10 +18,24 @@ const MailCard = ({ mail }: Types) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const { user } = useSelector((state: RootState) => state.auth);
-
   let { createdAt } = mail;
 
   createdAt = new Date().toLocaleDateString("en-US");
+  const dispatch = useDispatch();
+
+  const handleDelete = async (id: string) => {
+    const mailDeleteArray = [`${id}`];
+
+    try {
+      await axios.delete("/mails/delete", {
+        data: { mailsId: mailDeleteArray },
+      });
+
+      dispatch(filterMails(id));
+    } catch (error: any) {
+      console.log(error.response?.data);
+    }
+  };
 
   return (
     <div className="flex items-center space-x-2 p-2 sm:py-1.5 sm:hover:shadow-md sm:hover:shadow-gray-400 cursor-pointer sm:border-t group sm:max-h-[2.8rem] hover:bg-gray-50">
@@ -67,7 +84,11 @@ const MailCard = ({ mail }: Types) => {
         </p>
         <div className="hidden group-hover:flex items-center space-x-2">
           <IconButton Icon={ArchiveIcon} label="Archive" />
-          <IconButton Icon={DeleteIcon} label="Delete" />
+          <IconButton
+            Icon={DeleteIcon}
+            label="Delete"
+            handleClick={() => handleDelete(mail._id)}
+          />
         </div>
       </div>
     </div>

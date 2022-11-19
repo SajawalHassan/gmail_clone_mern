@@ -27,6 +27,17 @@ const mailSlice = createSlice({
     setIsLoading: (state: any, { payload }) => {
       state.isLoading = payload;
     },
+    filterMails: (state: any, { payload }) => {
+      state.primaryMails.splice(
+        state.primaryMails.findIndex((mail: any) => mail._id !== payload)
+      );
+      state.promotionMails.splice(
+        state.promotionMails.findIndex((mail: any) => mail._id !== payload)
+      );
+      state.socialMails.splice(
+        state.socialMails.findIndex((mail: any) => mail._id !== payload)
+      );
+    },
   },
 });
 
@@ -36,6 +47,7 @@ export const {
   setPromotionMails,
   setSocialMails,
   setIsLoading,
+  filterMails,
 } = mailSlice.actions;
 
 export default mailSlice.reducer;

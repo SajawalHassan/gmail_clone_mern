@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
 
   socket.on("sendMail", (data) => {
     const reciever: any = getUser(data.reciever._id);
-    io.to(reciever.socketId).emit("recieveMessage", {
+    io.to(reciever.socketId).emit("recieveMail", {
       mail: data.mail,
     });
   });

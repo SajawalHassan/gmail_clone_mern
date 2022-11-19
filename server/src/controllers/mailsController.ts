@@ -5,7 +5,7 @@ import { mailCreateValidation } from "../validation/mailValidation";
 import Mail from "../models/Mail";
 import User from "../models/User";
 
-export const createPost = async (req: RequestTypes, res: Response) => {
+export const createMail = async (req: RequestTypes, res: Response) => {
   const { error } = mailCreateValidation(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
 
@@ -74,6 +74,20 @@ export const getSocialMails = async (req: RequestTypes, res: Response) => {
     mails = mails.filter((mail) => mail.mailType === "social");
 
     res.json({ message: "Request successful!", mails });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong. /:" });
+  }
+};
+
+export const deleteMails = (req: RequestTypes, res: Response) => {
+  const { mailsId } = req.body;
+
+  try {
+    mailsId.map(async (mailId: string) => {
+      await Mail.findById(mailId).deleteOne();
+    });
+
+    res.json("Mail deleted!");
   } catch (error) {
     res.status(500).json({ error: "Something went wrong. /:" });
   }

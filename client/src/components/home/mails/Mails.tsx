@@ -28,9 +28,10 @@ const Mails = () => {
   const [activeTab, setActiveTab] = useState<string>("primary");
 
   const { socket } = useSelector((state: RootState) => state.socket);
-  const { primaryMails, promotionMails, socialMails, isLoading } = useSelector(
+  let { primaryMails, promotionMails, socialMails } = useSelector(
     (state: RootState) => state.mails
   );
+  const { isLoading } = useSelector((state: RootState) => state.mails);
 
   const dispatch = useDispatch();
 
@@ -59,37 +60,24 @@ const Mails = () => {
     };
 
     getMails();
-  }, [
-    activeTab,
-    primaryMails?.length,
-    socialMails?.length,
-    promotionMails?.length,
-  ]);
+    // eslint-disable-next-line
+  }, [activeTab, dispatch]);
 
   useEffect(() => {
     socket &&
-      socket.on("recieveMessage", ({ mail }: any) => {
+      socket.on("recieveMail", ({ mail }: any) => {
         if (mail.mailType === activeTab) {
           if (activeTab === "primary") {
-            primaryMails && dispatch(setPrimaryMails([mail, ...primaryMails]));
+            dispatch(setPrimaryMails([mail, ...primaryMails]));
           } else if (activeTab === "promotions") {
-            promotionMails &&
-              dispatch(setPromotionMails([mail, ...promotionMails]));
+            dispatch(setPromotionMails([mail, ...promotionMails]));
           } else {
-            socialMails && dispatch(setSocialMails([mail, ...socialMails]));
+            dispatch(setSocialMails([mail, ...socialMails]));
           }
         }
       });
-  }, [
-    primaryMails,
-    socket,
-    activeTab,
-    promotionMails,
-    socialMails,
-    primaryMails?.length,
-    promotionMails?.length,
-    socialMails?.length,
-  ]);
+    // eslint-disable-next-line
+  }, [primaryMails, socket, activeTab, promotionMails, socialMails, dispatch]);
 
   return (
     <div className="bg-header py-3 px-5 flex-auto overflow-hidden">
