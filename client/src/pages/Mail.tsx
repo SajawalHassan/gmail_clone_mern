@@ -10,8 +10,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBackOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ArchiveIcon from "@mui/icons-material/ArchiveOutlined";
 import IconButton from "../components/global/IconButton";
-import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturnOutlined";
 import ShortcutIcon from "@mui/icons-material/Shortcut";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const Mail = () => {
   const [mail, setMail] = useState<any>();
@@ -107,7 +108,11 @@ const Mail = () => {
                 {createdAt}
               </p>
             </div>
-            <p className="text-sm mt-4">{mail?.body}</p>
+            <div className="mt-5">
+              <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose">
+                {mail?.body}
+              </ReactMarkdown>
+            </div>
           </div>
           <div className="flex items-center space-x-3">
             <button className="mail-btn">

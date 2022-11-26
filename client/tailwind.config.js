@@ -9,7 +9,18 @@ module.exports = {
         "icon-hover": "#E7EAED",
         "menu-option": "#EEEEEE",
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: [
+            {
+              "ul > li.task-list-item::before": {
+                content: "none",
+              },
+            },
+          ],
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

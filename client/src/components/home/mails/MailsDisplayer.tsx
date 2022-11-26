@@ -58,7 +58,6 @@ const Mails = () => {
           dispatch(addMail(mail));
         }
       });
-    // eslint-disable-next-line
   }, [socket, dispatch, activeTab]);
 
   return (
