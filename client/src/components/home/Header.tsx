@@ -83,7 +83,7 @@ const Header = () => {
 
       {searchToggler && <Search setSearchToggler={setSearchToggler} />}
       {helpMenu && (
-        <div className="menu right-28 min-w-[15rem] z-50" ref={helpMenuRef}>
+        <div className="menu right-[9rem] min-w-[15rem] z-50" ref={helpMenuRef}>
           <MenuOption text="Help" />
           <MenuOption text="Training" />
           <MenuOption text="Updates" />

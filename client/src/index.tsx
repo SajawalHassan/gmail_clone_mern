@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ProtectedRoute from "./components/global/ProtectedRoute";
 import Login from "./pages/Login";
+import Mail from "./pages/Mail";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store";
@@ -20,6 +21,7 @@ root.render(
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<App />} />
+            <Route path="/mail/:mailId" element={<Mail />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>

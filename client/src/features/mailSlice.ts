@@ -1,10 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: any = {
+interface initialStateTypes {
+  error: string;
+  primaryMails: any[];
+  promotionMails: any[];
+  socialMails: any[];
+  activeTab: string;
+  isLoading: boolean;
+}
+
+const initialState: initialStateTypes = {
   error: "",
   primaryMails: [],
   promotionMails: [],
   socialMails: [],
+  activeTab: "primary",
   isLoading: false,
 };
 
@@ -12,42 +22,37 @@ const mailSlice = createSlice({
   name: "Mails",
   initialState,
   reducers: {
-    setError: (state: any, { payload }) => {
+    setError: (state, { payload }) => {
       state.error = payload;
     },
-    setPrimaryMails: (state: any, { payload }) => {
-      state.primaryMails = payload;
+    setMails: (state, { payload }) => {
+      if (state.activeTab === "primary") {
+        state.primaryMails = payload;
+      } else if (state.activeTab === "promotions") {
+        state.promotionMails = payload;
+      } else {
+        state.socialMails = payload;
+      }
     },
-    setPromotionMails: (state: any, { payload }) => {
-      state.promotionMails = payload;
+    addMail: (state, { payload }) => {
+      if (state.activeTab === "primary") {
+        state.primaryMails.splice(0, 0, payload);
+      } else if (state.activeTab === "promotions") {
+        state.promotionMails.splice(0, 0, payload);
+      } else {
+        state.socialMails.splice(0, 0, payload);
+      }
     },
-    setSocialMails: (state: any, { payload }) => {
-      state.socialMails = payload;
-    },
-    setIsLoading: (state: any, { payload }) => {
+    setIsLoading: (state, { payload }) => {
       state.isLoading = payload;
     },
-    filterMails: (state: any, { payload }) => {
-      state.primaryMails.splice(
-        state.primaryMails.findIndex((mail: any) => mail._id !== payload)
-      );
-      state.promotionMails.splice(
-        state.promotionMails.findIndex((mail: any) => mail._id !== payload)
-      );
-      state.socialMails.splice(
-        state.socialMails.findIndex((mail: any) => mail._id !== payload)
-      );
+    setActiveTab: (state, { payload }) => {
+      state.activeTab = payload;
     },
   },
 });
 
-export const {
-  setError,
-  setPrimaryMails,
-  setPromotionMails,
-  setSocialMails,
-  setIsLoading,
-  filterMails,
-} = mailSlice.actions;
+export const { setError, setIsLoading, setMails, setActiveTab, addMail } =
+  mailSlice.actions;
 
 export default mailSlice.reducer;

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./app/store";
 import { useDispatch } from "react-redux";
 import { setSocket } from "./features/socketSlice";
-import Mails from "./components/home/mails/Mails";
+import MailsDisplayer from "./components/home/mails/MailsDisplayer";
 import Error from "./modals/Error";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <Mails />
+      <MailsDisplayer />
       <button
         className="p-2 rounded-md bg-header"
         onClick={() => setCreateMailValue(true)}

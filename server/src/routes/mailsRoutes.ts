@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createMail,
   deleteMails,
+  getMail,
   getPrimaryMails,
   getPromotionMails,
   getSocialMails,
@@ -14,5 +15,6 @@ router.delete("/delete", deleteMails);
 router.get("/primary", getPrimaryMails);
 router.get("/promotions", getPromotionMails);
 router.get("/social", getSocialMails);
+router.get("/:mailId", getMail);
 
 export default router;

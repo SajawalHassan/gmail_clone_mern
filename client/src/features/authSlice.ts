@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: any = {
+interface initialStateTypes {
+  user: any;
+}
+
+const initialState: initialStateTypes = {
   user: {},
 };
 

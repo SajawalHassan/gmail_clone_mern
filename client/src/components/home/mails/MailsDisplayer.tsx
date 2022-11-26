@@ -15,23 +15,24 @@ import Checkbox from "../../global/Checkbox";
 import IconButton from "../../global/IconButton";
 import { useDispatch } from "react-redux";
 import {
+  addMail,
+  setActiveTab,
   setIsLoading,
-  setPrimaryMails,
-  setPromotionMails,
-  setSocialMails,
+  setMails,
 } from "../../../features/mailSlice";
 import Loader from "../../global/Loader";
 
 const Mails = () => {
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [tabsAreShown, setTabsAreShown] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>("primary");
 
   const { socket } = useSelector((state: RootState) => state.socket);
   let { primaryMails, promotionMails, socialMails } = useSelector(
     (state: RootState) => state.mails
   );
-  const { isLoading } = useSelector((state: RootState) => state.mails);
+  const { isLoading, activeTab } = useSelector(
+    (state: RootState) => state.mails
+  );
 
   const dispatch = useDispatch();
 
@@ -45,13 +46,7 @@ const Mails = () => {
       try {
         const { data } = await axios.get(`/mails/${activeTab}`);
 
-        if (activeTab === "primary") {
-          dispatch(setPrimaryMails(data.mails));
-        } else if (activeTab === "promotions") {
-          dispatch(setPromotionMails(data.mails));
-        } else {
-          dispatch(setSocialMails(data.mails));
-        }
+        dispatch(setMails(data.mails));
       } catch (error: any) {
         console.log(error.response?.data);
       } finally {
@@ -66,18 +61,13 @@ const Mails = () => {
   useEffect(() => {
     socket &&
       socket.on("recieveMail", ({ mail }: any) => {
-        if (mail.mailType === activeTab) {
-          if (activeTab === "primary") {
-            dispatch(setPrimaryMails([mail, ...primaryMails]));
-          } else if (activeTab === "promotions") {
-            dispatch(setPromotionMails([mail, ...promotionMails]));
-          } else {
-            dispatch(setSocialMails([mail, ...socialMails]));
-          }
+        const localActiveTab = activeTab;
+        if (mail.mailType === localActiveTab) {
+          dispatch(addMail(mail));
         }
       });
     // eslint-disable-next-line
-  }, [primaryMails, socket, activeTab, promotionMails, socialMails, dispatch]);
+  }, [socket, activeTab]);
 
   return (
     <div className="bg-header py-3 px-5 flex-auto overflow-hidden">
@@ -118,19 +108,19 @@ const Mails = () => {
             Icon={BorderAllIcon}
             label="Primary"
             active={activeTab === "primary" ? true : false}
-            onClick={() => setActiveTab("primary")}
+            onClick={() => dispatch(setActiveTab("primary"))}
           />
           <MailTab
             Icon={SellIcon}
             label="Promotions"
             active={activeTab === "promotions" ? true : false}
-            onClick={() => setActiveTab("promotions")}
+            onClick={() => dispatch(setActiveTab("promotions"))}
           />
           <MailTab
             Icon={Person2Icon}
             label="Socials"
             active={activeTab === "social" ? true : false}
-            onClick={() => setActiveTab("social")}
+            onClick={() => dispatch(setActiveTab("social"))}
           />
         </div>
         {isLoading ? (

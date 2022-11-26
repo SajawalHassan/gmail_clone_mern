@@ -92,3 +92,19 @@ export const deleteMails = (req: RequestTypes, res: Response) => {
     res.status(500).json({ error: "Something went wrong. /:" });
   }
 };
+
+export const getMail = async (req: RequestTypes, res: Response) => {
+  const { mailId } = req.params;
+
+  try {
+    const mail = await Mail.findById(mailId);
+
+    if (mail) {
+      return res.json({ message: "Mail found successfully", mail });
+    } else {
+      return res.status(404).json({ error: "Mail not found!" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong. /:" });
+  }
+};
