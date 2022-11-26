@@ -17,6 +17,15 @@
   .modal-inner {
     @apply h-full w-full sm:rounded-md relative bg-white z-50;
   }
+  .section-outer {
+    @apply bg-header py-3 px-5;
+  }
+  .section-inner {
+    @apply bg-white rounded-3xl h-full py-3;
+  }
+  .mail-btn {
+    @apply rounded-full border-gray-400 border px-5 py-1 text-gray-700 hover:bg-gray-100;
+  }
 }
 
 body {

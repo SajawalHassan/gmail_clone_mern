@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { deleteMail } from "../../../requests/mailReq";
 
 import Checkbox from "../../global/Checkbox";
 import IconButton from "../../global/IconButton";
 import ArchiveIcon from "@mui/icons-material/ArchiveOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import axios from "../../../api/axios";
-import { useDispatch } from "react-redux";
-import { setMails } from "../../../features/mailSlice";
-import { useNavigate } from "react-router-dom";
 
 interface Types {
   mail: any;
@@ -19,37 +17,10 @@ const MailCard = ({ mail }: Types) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const { user } = useSelector((state: RootState) => state.auth);
-  const { activeTab } = useSelector((state: RootState) => state.mails);
-  let { createdAt } = mail;
 
-  createdAt = new Date().toLocaleDateString("en-US");
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const getAllMails = async () => {
-    try {
-      const { data } = await axios.get(`/mails/${activeTab}`);
-
-      dispatch(setMails(data.mails));
-    } catch (error: any) {
-      console.log(error.response?.data);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    const mailDeleteArray = [`${id}`];
-
-    try {
-      await axios.delete("/mails/delete", {
-        data: { mailsId: mailDeleteArray },
-      });
-
-      getAllMails();
-    } catch (error: any) {
-      console.log(error.response?.data);
-    }
-  };
+  let createdAt: any = new Date(mail?.createdAt);
+  createdAt = createdAt.toLocaleString("en-US").split(",")[0];
+  const navigate: NavigateFunction = useNavigate();
 
   const handleOnClick = () => {
     navigate(`/mail/${mail._id}`);
@@ -64,7 +35,7 @@ const MailCard = ({ mail }: Types) => {
         referrerPolicy="no-referrer"
       />
 
-      <div className="w-full truncate sm:hidden">
+      <div className="w-full px-4 truncate sm:hidden" onClick={handleOnClick}>
         <div className="flex items-center justify-between w-full">
           <h1 className="font-bold">
             {mail.sender.username === user.username
@@ -111,7 +82,7 @@ const MailCard = ({ mail }: Types) => {
               labelIsShown={false}
               Icon={DeleteIcon}
               label="Delete"
-              handleClick={() => handleDelete(mail._id)}
+              handleClick={() => deleteMail(mail._id)}
             />
           </div>
         </div>

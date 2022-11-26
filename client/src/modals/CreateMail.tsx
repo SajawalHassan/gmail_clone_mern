@@ -96,7 +96,7 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
               }
             />
           </section>
-          <footer className="absolute bottom-0 p-3">
+          <footer className="absolute bottom-0 p-3 bg-white w-full">
             <button
               type="submit"
               className="bg-blue-600 rounded-full py-2 px-5 font-[500] text-white"

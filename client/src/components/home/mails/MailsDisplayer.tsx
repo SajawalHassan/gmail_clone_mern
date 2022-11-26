@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 
-import axios from "../../../api/axios";
 import MailCard from "./MailCard";
 import MailTab from "./MailTab";
 import BorderAllIcon from "@mui/icons-material/BorderAllRounded";
@@ -18,9 +17,9 @@ import {
   addMail,
   setActiveTab,
   setIsLoading,
-  setMails,
 } from "../../../features/mailSlice";
 import Loader from "../../global/Loader";
+import { getAllMails } from "../../../requests/mailReq";
 
 const Mails = () => {
   const [allSelected, setAllSelected] = useState<boolean>(false);
@@ -43,20 +42,13 @@ const Mails = () => {
       if (activeTab === "social" && socialMails?.length !== 0) return;
 
       dispatch(setIsLoading(true));
-      try {
-        const { data } = await axios.get(`/mails/${activeTab}`);
-
-        dispatch(setMails(data.mails));
-      } catch (error: any) {
-        console.log(error.response?.data);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
+      await getAllMails();
+      dispatch(setIsLoading(false));
     };
 
     getMails();
     // eslint-disable-next-line
-  }, [activeTab, dispatch]);
+  }, [activeTab]);
 
   useEffect(() => {
     socket &&
@@ -67,11 +59,11 @@ const Mails = () => {
         }
       });
     // eslint-disable-next-line
-  }, [socket, activeTab]);
+  }, [socket, dispatch, activeTab]);
 
   return (
-    <div className="bg-header py-3 px-5 flex-auto overflow-hidden">
-      <div className="bg-white rounded-3xl h-full py-3 overflow-scroll">
+    <div className="section-outer flex-auto overflow-hidden">
+      <div className="section-inner overflow-scroll">
         <div className="flex items-center space-x-3 px-3">
           <Checkbox
             isSelected={allSelected}
@@ -118,7 +110,7 @@ const Mails = () => {
           />
           <MailTab
             Icon={Person2Icon}
-            label="Socials"
+            label="Social"
             active={activeTab === "social" ? true : false}
             onClick={() => dispatch(setActiveTab("social"))}
           />

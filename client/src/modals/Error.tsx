@@ -13,7 +13,7 @@ const Error = () => {
 
   return (
     <div className="modal-outer z-50">
-      <div className="modal-inner min-w-[30rem] min-h-[10rem] py-3 px-5 relative">
+      <div className="modal-inner sm:min-w-[30rem] sm:min-h-[10rem] py-3 px-5 relative">
         <div className="flex items-center justify-between">
           <h1 className="font-[500] text-xl">Error</h1>
           <IconButton
