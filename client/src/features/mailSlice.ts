@@ -7,6 +7,7 @@ interface initialStateTypes {
   socialMails: any[];
   activeTab: string;
   isLoading: boolean;
+  mailModalIsActive: boolean;
 }
 
 const initialState: initialStateTypes = {
@@ -16,6 +17,7 @@ const initialState: initialStateTypes = {
   socialMails: [],
   activeTab: "primary",
   isLoading: false,
+  mailModalIsActive: false,
 };
 
 const mailSlice = createSlice({
@@ -49,10 +51,19 @@ const mailSlice = createSlice({
     setActiveTab: (state, { payload }) => {
       state.activeTab = payload;
     },
+    setMailModalIsActive: (state, { payload }) => {
+      state.mailModalIsActive = payload;
+    },
   },
 });
 
-export const { setError, setIsLoading, setMails, setActiveTab, addMail } =
-  mailSlice.actions;
+export const {
+  setError,
+  setIsLoading,
+  setMails,
+  setActiveTab,
+  addMail,
+  setMailModalIsActive,
+} = mailSlice.actions;
 
 export default mailSlice.reducer;

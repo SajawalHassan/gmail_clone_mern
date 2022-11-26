@@ -4,7 +4,7 @@ import { RootState } from "../../../app/store";
 
 import MailCard from "./MailCard";
 import MailTab from "./MailTab";
-import BorderAllIcon from "@mui/icons-material/BorderAllRounded";
+import InboxIcon from "@mui/icons-material/InboxOutlined";
 import SellIcon from "@mui/icons-material/SellOutlined";
 import Person2Icon from "@mui/icons-material/Person2Outlined";
 import RefreshIcon from "@mui/icons-material/RefreshOutlined";
@@ -100,7 +100,7 @@ const Mails = () => {
           }`}
         >
           <MailTab
-            Icon={BorderAllIcon}
+            Icon={InboxIcon}
             label="Primary"
             active={activeTab === "primary" ? true : false}
             onClick={() => dispatch(setActiveTab("primary"))}

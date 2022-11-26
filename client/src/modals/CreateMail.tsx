@@ -13,14 +13,10 @@ import { useSelector } from "react-redux";
 import axios from "../api/axios";
 import { RootState } from "../app/store";
 import IconButton from "../components/global/IconButton";
-import { setError } from "../features/mailSlice";
+import { setError, setMailModalIsActive } from "../features/mailSlice";
 import useOutsideAlerter from "../hooks/useOutsideAlerter";
 
-interface Types {
-  setCreateMailValue: Dispatch<SetStateAction<boolean>>;
-}
-
-const CreateMail = ({ setCreateMailValue }: Types) => {
+const CreateMail = () => {
   const [recieverEmail, setRecieverEmail] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<string>("");
@@ -30,7 +26,7 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
 
   const dispatch = useDispatch();
   const dialogeRef = useRef() as MutableRefObject<HTMLDivElement>;
-  useOutsideAlerter(dialogeRef, setCreateMailValue);
+  useOutsideAlerter(dialogeRef, setMailModalIsActive, true);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -45,7 +41,7 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
       setRecieverEmail("");
       setSubject("");
       setBody("");
-      setCreateMailValue(false);
+      dispatch(setMailModalIsActive(false));
     } catch (err: any) {
       dispatch(setError(err.response.data.error));
     }
@@ -63,7 +59,7 @@ const CreateMail = ({ setCreateMailValue }: Types) => {
             Icon={CloseIcon}
             label="Close"
             className="rounded-none p-0"
-            handleClick={() => setCreateMailValue(false)}
+            handleClick={() => dispatch(setMailModalIsActive(false))}
           />
         </header>
         <form onSubmit={(e: SyntheticEvent) => handleSubmit(e)}>

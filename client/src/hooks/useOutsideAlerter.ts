@@ -1,13 +1,19 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
+import { store } from "../app/store";
 
 const useOutsideAlerter = (
   ref: any,
-  setState: Dispatch<SetStateAction<boolean>>
+  setState: any,
+  dispatchState: boolean = false
 ) => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (ref?.current && !ref?.current.contains(e.target)) {
-        setState(false);
+        if (dispatchState) {
+          store.dispatch(setState(false));
+        } else {
+          setState(false);
+        }
       }
     };
 

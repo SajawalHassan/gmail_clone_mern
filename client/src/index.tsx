@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import Home from "./pages/Home";
 import reportWebVitals from "./reportWebVitals";
 import ProtectedRoute from "./components/global/ProtectedRoute";
 import Login from "./pages/Login";
@@ -20,7 +20,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Home />} />
             <Route path="/mail/:mailId" element={<Mail />} />
           </Route>
           <Route path="/login" element={<Login />} />

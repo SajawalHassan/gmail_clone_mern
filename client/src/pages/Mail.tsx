@@ -5,7 +5,7 @@ import { RootState } from "../app/store";
 import { deleteMail } from "../requests/mailReq";
 
 import axios from "../api/axios";
-import Header from "../components/home/Header";
+import Header from "../components/home/header/Header";
 import ArrowBackIcon from "@mui/icons-material/ArrowBackOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ArchiveIcon from "@mui/icons-material/ArchiveOutlined";
@@ -13,6 +13,7 @@ import IconButton from "../components/global/IconButton";
 import ShortcutIcon from "@mui/icons-material/Shortcut";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Sidebar from "../components/home/sidebar/Sidebar";
 
 const Mail = () => {
   const [mail, setMail] = useState<any>();
@@ -57,71 +58,74 @@ const Mail = () => {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <div className="flex-auto section-outer">
-        <div className="section-inner px-3 space-y-8">
-          <div className="flex items-center space-x-5">
-            <IconButton
-              Icon={ArrowBackIcon}
-              label="Back"
-              handleClick={() => navigate("/")}
-            />
-            <div className="flex items-center space-x-2">
+      <div className="flex h-full">
+        <Sidebar />
+        <div className="flex-auto section-outer">
+          <div className="section-inner px-3 space-y-8">
+            <div className="flex items-center space-x-5">
               <IconButton
-                Icon={DeleteIcon}
-                label="Delete"
-                handleClick={handleDelete}
+                Icon={ArrowBackIcon}
+                label="Back"
+                handleClick={() => navigate("/")}
               />
-              <IconButton Icon={ArchiveIcon} label="Archive" />
-            </div>
-          </div>
-
-          <h1 className="sm:ml-5 font-light text-4xl sm:text-5xl">
-            {mail?.subject}
-          </h1>
-
-          <div>
-            <div className="flex justify-between">
-              <div className="flex">
-                <img
-                  src={mail?.sender.profilePic}
-                  alt="Profile"
-                  className="h-12 rounded-full cursor-pointer border border-transparent active:border-blue-500"
-                  referrerPolicy="no-referrer"
+              <div className="flex items-center space-x-2">
+                <IconButton
+                  Icon={DeleteIcon}
+                  label="Delete"
+                  handleClick={handleDelete}
                 />
-                <div className="ml-2 truncate">
-                  <div className="flex items-center space-x-1">
-                    <p className="font-bold">{mail?.sender.username}</p>
-                    <p className="text-xs text-gray-600 truncate">
-                      &lt;{mail?.sender.email}&gt;
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <p className="text-sm text-gray-600">to me</p>
-                    <p className="text-gray-600 text-xs block sm:hidden">
-                      {createdAt}
-                    </p>
+                <IconButton Icon={ArchiveIcon} label="Archive" />
+              </div>
+            </div>
+
+            <h1 className="sm:ml-5 font-light text-4xl sm:text-5xl">
+              {mail?.subject}
+            </h1>
+
+            <div>
+              <div className="flex justify-between">
+                <div className="flex">
+                  <img
+                    src={mail?.sender.profilePic}
+                    alt="Profile"
+                    className="h-12 rounded-full cursor-pointer border border-transparent active:border-blue-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="ml-2 truncate">
+                    <div className="flex items-center space-x-1">
+                      <p className="font-bold">{mail?.sender.username}</p>
+                      <p className="text-xs text-gray-600 truncate">
+                        &lt;{mail?.sender.email}&gt;
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <p className="text-sm text-gray-600">to me</p>
+                      <p className="text-gray-600 text-xs block sm:hidden">
+                        {createdAt}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                <p className="text-gray-600 text-xs hidden mt-1 sm:block">
+                  {createdAt}
+                </p>
               </div>
-              <p className="text-gray-600 text-xs hidden mt-1 sm:block">
-                {createdAt}
-              </p>
+              <div className="mt-5">
+                <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose">
+                  {mail?.body}
+                </ReactMarkdown>
+              </div>
             </div>
-            <div className="mt-5">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose">
-                {mail?.body}
-              </ReactMarkdown>
+            <div className="flex items-center space-x-3">
+              <button className="mail-btn">
+                <ShortcutIcon className="rotate-180 mr-1" />
+                Reply
+              </button>
+              <button className="mail-btn">
+                <ShortcutIcon className="mr-1" />
+                Forward
+              </button>
             </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <button className="mail-btn">
-              <ShortcutIcon className="rotate-180 mr-1" />
-              Reply
-            </button>
-            <button className="mail-btn">
-              <ShortcutIcon className="mr-1" />
-              Forward
-            </button>
           </div>
         </div>
       </div>

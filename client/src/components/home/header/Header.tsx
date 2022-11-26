@@ -4,16 +4,18 @@ import HelpIcon from "@mui/icons-material/HelpOutlined";
 import SettingsIcon from "@mui/icons-material/SettingsOutlined";
 import AppsIcon from "@mui/icons-material/AppsOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAltOutlined";
-import IconButton from "../global/IconButton";
+import IconButton from "../../global/IconButton";
 import Search from "./Search";
-import MenuOption from "../global/MenuOption";
-import useOutsideAlerter from "../../hooks/useOutsideAlerter";
-import ProfilePicture from "../global/ProfilePicture";
+import MenuOption from "../../global/MenuOption";
+import useOutsideAlerter from "../../../hooks/useOutsideAlerter";
+import ProfilePicture from "../../global/ProfilePicture";
 
 import { Link } from "react-router-dom";
 import { MutableRefObject, useRef, useState } from "react";
-import { RootState } from "../../app/store";
+import { RootState } from "../../../app/store";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setSidebarIsOpen } from "../../../features/sidebarSlice";
 
 const apiURL: string =
   process.env.NODE_ENV === "production"
@@ -27,6 +29,7 @@ const Header = () => {
   const [helpMenu, setHelpMenu] = useState<boolean>(false);
   const [profileMenu, setProfileMenu] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
   const helpMenuRef = useRef() as MutableRefObject<HTMLDivElement>;
   const profileMenuRef = useRef() as MutableRefObject<HTMLDivElement>;
   useOutsideAlerter(helpMenuRef, setHelpMenu);
@@ -41,7 +44,10 @@ const Header = () => {
       {!searchToggler && (
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-grow">
-            <div className="p-2 icon-btn">
+            <div
+              className="p-2 icon-btn"
+              onClick={() => dispatch(setSidebarIsOpen(true))}
+            >
               <MenuIcon />
             </div>
             <Link to="/" className="ml-1">

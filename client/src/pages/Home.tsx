@@ -1,23 +1,24 @@
-import Header from "./components/home/Header";
+import Header from "../components/home/header/Header";
 import io from "socket.io-client";
-import CreateMail from "./modals/CreateMail";
+import CreateMail from "../modals/CreateMail";
 
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "./app/store";
+import { RootState } from "../app/store";
 import { useDispatch } from "react-redux";
-import { setSocket } from "./features/socketSlice";
-import MailsDisplayer from "./components/home/mails/MailsDisplayer";
-import Error from "./modals/Error";
+import { setSocket } from "../features/socketSlice";
+import MailsHomeDisplayer from "../components/home/mails/MailsInboxDisplayer";
+import Error from "../modals/Error";
+import Sidebar from "../components/home/sidebar/Sidebar";
 
 function App() {
-  const [createMailValue, setCreateMailValue] = useState<boolean>(false);
-
   const socketIo = useRef(io("ws://localhost:8900"));
   const dispatch = useDispatch();
 
   const { user } = useSelector((state: RootState) => state.auth);
-  const { error } = useSelector((state: RootState) => state.mails);
+  const { error, mailModalIsActive } = useSelector(
+    (state: RootState) => state.mails
+  );
   const { current: socket } = socketIo;
 
   useEffect(() => {
@@ -33,16 +34,11 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <MailsDisplayer />
-      <button
-        className="p-2 rounded-md bg-header"
-        onClick={() => setCreateMailValue(true)}
-      >
-        Compose
-      </button>
-      {createMailValue && (
-        <CreateMail setCreateMailValue={setCreateMailValue} />
-      )}
+      <div className="flex h-full">
+        <Sidebar />
+        <MailsHomeDisplayer />
+      </div>
+      {mailModalIsActive && <CreateMail />}
       {error && <Error />}
     </div>
   );

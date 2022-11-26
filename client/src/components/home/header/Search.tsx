@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import TuneIcon from "@mui/icons-material/TuneOutlined";
 import ClearIcon from "@mui/icons-material/ClearOutlined";
-import IconButton from "../global/IconButton";
+import IconButton from "../../global/IconButton";
 
 import {
   ChangeEvent,
@@ -11,7 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
-import useOutsideAlerter from "../../hooks/useOutsideAlerter";
+import useOutsideAlerter from "../../../hooks/useOutsideAlerter";
 
 interface Types {
   setSearchToggler: Dispatch<SetStateAction<boolean>>;

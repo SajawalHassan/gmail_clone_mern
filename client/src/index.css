@@ -26,6 +26,9 @@
   .mail-btn {
     @apply rounded-full border-gray-400 border px-5 py-1 text-gray-700 hover:bg-gray-100;
   }
+  .compose-btn {
+    @apply transition-all duration-150 hover:shadow-lg hover:border-[#aedaf8] border border-transparent rounded-2xl bg-[#C2E7FF];
+  }
 }
 
 body {
