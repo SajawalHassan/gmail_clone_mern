@@ -58,6 +58,10 @@ const Mails = () => {
           dispatch(addMail(mail));
         }
       });
+
+    return () => {
+      socket && socket.disconnect();
+    };
   }, [socket, dispatch, activeTab]);
 
   return (

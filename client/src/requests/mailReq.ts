@@ -25,7 +25,7 @@ export const deleteMail = async (id: string) => {
       data: { mailsId: mailDeleteArray },
     });
 
-    getAllMails();
+    await getAllMails();
   } catch (error: any) {
     console.log(error.response?.data);
   }

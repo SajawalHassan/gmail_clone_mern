@@ -17,7 +17,6 @@ import remarkGfm from "remark-gfm";
 const Mail = () => {
   const [mail, setMail] = useState<any>();
 
-  // let changableMail = mail;
   const { mailId } = useParams();
   const { primaryMails, promotionMails, socialMails } = useSelector(
     (state: RootState) => state.mails
