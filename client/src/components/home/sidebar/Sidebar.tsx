@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setMailModalIsActive } from "../../../features/mailSlice";
 

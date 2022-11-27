@@ -2,7 +2,7 @@ import Header from "../components/home/header/Header";
 import io from "socket.io-client";
 import CreateMail from "../modals/CreateMail";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useDispatch } from "react-redux";
