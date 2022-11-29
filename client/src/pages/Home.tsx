@@ -12,7 +12,9 @@ import Error from "../modals/Error";
 import Sidebar from "../components/home/sidebar/Sidebar";
 
 function App() {
-  const socketIo = useRef(io("ws://localhost:8900"));
+  const socketIo = useRef(
+    io("https://gmailclonemern-production.up.railway.app/")
+  );
   const dispatch = useDispatch();
 
   const { user } = useSelector((state: RootState) => state.auth);

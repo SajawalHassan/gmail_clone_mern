@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import http, { createServer } from "http";
 import socketIO from "socket.io";
+import cors from "cors";
 
 const origin: string =
   process.env.NODE_ENV == "production"
@@ -13,8 +14,18 @@ const server: http.Server = createServer(app);
 const io: socketIO.Server = new socketIO.Server(server, {
   cors: {
     origin,
+    credentials: true,
+    optionsSuccessStatus: 200,
   },
 });
+
+const corsOptions = {
+  origin,
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 server.listen(8900, () => console.log("socketIO server started!"));
 
